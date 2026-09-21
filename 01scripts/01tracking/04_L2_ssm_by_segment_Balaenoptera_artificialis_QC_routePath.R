@@ -172,7 +172,7 @@ message("Loaded ", length(split_list), " split files.")
 
 message("Loading land polygons for QC plots...")
 
-world <- ne_countries(scale = "large", returnclass = "sf") %>%
+world <- ne_countries(scale = "medium", returnclass = "sf") %>%
   st_transform(4326) %>%
   st_make_valid()
 
