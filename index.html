@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17164e">
+  <title>Preparación previa · Taller SDM Málaga 2026</title>
+  <style>
+    :root {
+      --navy: #17164e;
+      --navy-soft: #242364;
+      --blue: #078fdd;
+      --cyan: #04cbc9;
+      --orange: #ff9b3d;
+      --ink: #18233c;
+      --muted: #64718a;
+      --paper: #ffffff;
+      --mist: #f3f7fb;
+      --line: #dce5ef;
+      --success: #087d69;
+      --shadow: 0 18px 50px rgba(23, 22, 78, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--mist);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(125deg, #17164e 0%, #20246c 58%, #0873bd 100%);
+      padding: 54px 20px 108px;
+    }
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      opacity: .14;
+      border: 1px solid white;
+      pointer-events: none;
+    }
+    .hero::before { top: -300px; right: -120px; }
+    .hero::after { bottom: -470px; left: -200px; border-width: 34px; }
+    .hero-inner { position: relative; z-index: 1; max-width: 1040px; margin: auto; display: grid; grid-template-columns: 1fr 210px; gap: 38px; align-items: center; }
+    .eyebrow { margin: 0 0 12px; color: #75f1ee; font-size: .82rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { max-width: 780px; margin: 0; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -.045em; }
+    .hero p { max-width: 660px; margin: 20px 0 0; color: #dceeff; font-size: 1.08rem; }
+    .hero-logo { width: 190px; justify-self: end; filter: drop-shadow(0 12px 20px rgba(0,0,0,.22)); }
+
+    main { max-width: 980px; margin: -63px auto 0; padding: 0 20px 72px; position: relative; z-index: 2; }
+    .progress-card, .intro, .step, .finish { background: var(--paper); border-radius: 22px; box-shadow: var(--shadow); }
+    .progress-card { padding: 24px 26px; display: grid; grid-template-columns: 1fr auto; gap: 16px 30px; align-items: center; }
+    .progress-card h2 { margin: 0; font-size: 1rem; }
+    .progress-count { color: var(--navy); font-weight: 850; font-size: 1.05rem; white-space: nowrap; }
+    .progress-rail { grid-column: 1 / -1; height: 12px; overflow: hidden; border-radius: 999px; background: #e8eef4; }
+    .progress-bar { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--blue)); transition: width .35s ease; }
+    .intro { margin-top: 24px; padding: 26px; border-left: 7px solid var(--orange); }
+    .intro p { margin: 0; }
+    .intro strong { color: var(--navy); }
+
+    .steps { margin-top: 24px; display: grid; gap: 16px; }
+    .step { overflow: hidden; border: 1px solid transparent; transition: transform .2s ease, border-color .2s ease; }
+    .step:hover { transform: translateY(-2px); border-color: #b5e8ee; }
+    .step.is-complete { border-color: #92d9cc; }
+    .step-header { display: flex; gap: 17px; align-items: center; padding: 21px 24px; cursor: pointer; user-select: none; }
+    .number { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--navy); font-weight: 850; }
+    .step.is-complete .number { background: var(--success); }
+    .step-title { flex: 1; font-weight: 800; font-size: 1.05rem; }
+    .step-status { color: var(--muted); font-size: .88rem; }
+    .chevron { color: var(--navy); font-size: 1.25rem; transition: transform .2s ease; }
+    .step.open .chevron { transform: rotate(180deg); }
+    .step-content { display: none; padding: 0 24px 25px 77px; }
+    .step.open .step-content { display: block; }
+    .step-content p:first-child { margin-top: 0; }
+    .step-content h3 { margin: 22px 0 7px; color: var(--navy); font-size: .98rem; }
+    .step-content ul { padding-left: 20px; }
+    a { color: #006ec1; font-weight: 650; }
+
+    .codebox { position: relative; margin: 13px 0; overflow: hidden; border-radius: 12px; color: #edf7ff; background: #101936; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+    pre { margin: 0; padding: 18px 62px 18px 18px; overflow-x: auto; font: 500 .88rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; }
+    .copy { position: absolute; top: 10px; right: 10px; border: 0; border-radius: 8px; padding: 7px 9px; color: white; background: rgba(255,255,255,.14); font-size: .75rem; font-weight: 750; cursor: pointer; }
+    .copy:hover { background: rgba(255,255,255,.25); }
+    .callout { margin: 18px 0; padding: 14px 16px; border-radius: 12px; color: #5c3e0c; background: #fff2dd; }
+    .callout strong { color: #8a5000; }
+    .check-row { display: flex; gap: 10px; align-items: flex-start; margin-top: 22px; padding: 13px 15px; border-radius: 11px; background: #eff9f7; color: #155449; font-weight: 700; cursor: pointer; }
+    .check-row input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--success); }
+
+    .finish { margin-top: 24px; padding: 30px; text-align: center; }
+    .finish h2 { margin: 0; color: var(--navy); font-size: 1.65rem; }
+    .finish > p { color: var(--muted); }
+    .name-field { width: min(440px, 100%); margin: 18px auto; text-align: left; }
+    label { display: block; margin-bottom: 7px; color: var(--navy); font-size: .9rem; font-weight: 800; }
+    input[type="text"] { width: 100%; padding: 13px 14px; border: 1px solid #cdd9e7; border-radius: 10px; color: var(--ink); font: inherit; outline: none; }
+    input[type="text"]:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(7,143,221,.12); }
+    .send { border: 0; border-radius: 12px; padding: 14px 20px; color: white; background: var(--navy); font: 800 1rem inherit; cursor: pointer; transition: transform .18s ease, background .18s ease; }
+    .send:hover:not(:disabled) { background: var(--navy-soft); transform: translateY(-2px); }
+    .send:disabled { opacity: .48; cursor: not-allowed; }
+    .send-status { min-height: 24px; margin: 13px 0 0; color: var(--muted); font-size: .92rem; font-weight: 650; }
+    .send-status.success { color: var(--success); }
+    .send-status.error { color: #b63d32; }
+    .fineprint { margin-top: 15px; color: var(--muted); font-size: .82rem; }
+    footer { margin-top: 34px; text-align: center; color: #728097; font-size: .86rem; }
+
+    @media (max-width: 650px) {
+      .hero { padding-top: 40px; padding-bottom: 96px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 22px; }
+      .hero-logo { display: none; }
+      .progress-card { padding: 20px; }
+      .step-header { padding: 18px; gap: 12px; }
+      .step-status { display: none; }
+      .step-content { padding: 0 18px 20px; }
+      .number { width: 31px; height: 31px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Taller · Málaga 2026</p>
+        <h1>Prepara tu ordenador para el taller SDM</h1>
+        <p>Una guía paso a paso para dejar listo R, Copernicus Marine y la descarga automática de datos ambientales.</p>
+      </div>
+      <img class="hero-logo" src="logoWorkshop_Malaga2026_v2.png" alt="Logo del taller SDM Málaga 2026">
+    </div>
+  </header>
+
+  <main>
+    <section class="progress-card" aria-label="Progreso de la preparación">
+      <h2>Tu preparación</h2>
+      <span class="progress-count" id="progressCount">0 de 7 pasos</span>
+      <div class="progress-rail"><div class="progress-bar" id="progressBar"></div></div>
+    </section>
+
+    <section class="intro">
+      <p><strong>Antes de empezar:</strong> trae tu propio ordenador e intenta completar estos pasos antes del taller. Si algo falla, no te preocupes: tendremos los datos ambientales ya descargados para que puedas seguir la sesión.</p>
+    </section>
+
+    <section class="steps" id="steps">
+      <article class="step open" data-step="1">
+        <div class="step-header" role="button" tabindex="0" aria-expanded="true">
+          <span class="number">1</span><span class="step-title">Crear una cuenta en Copernicus Marine</span><span class="step-status">Pendiente</span><span class="chevron">⌄</span>
+        </div>
+        <div class="step-content">
+          <p>Crea una cuenta gratuita en <a href="https://marine.copernicus.eu/" target="_blank" rel="noreferrer">Copernicus Marine</a>. Guarda tu nombre de usuario y contraseña: los necesitarás para descargar los datos ambientales.</p>
+          <label class="check-row"><input type="checkbox"><span>Ya tengo una cuenta de Copernicus Marine y sé cómo acceder.</span></label>
+        </div>
+      </article>
+
+      <article class="step" data-step="2">
+        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+          <span class="number">2</span><span class="step-title">Instalar R y RStudio</span><span class="step-status">Pendiente</span><span class="chevron">⌄</span>
+        </div>
+        <div class="step-content">
+          <p>Si todavía no los tienes, instala <a href="https://cran.r-project.org/" target="_blank" rel="noreferrer">R</a> y <a href="https://posit.co/download/rstudio-desktop/" target="_blank" rel="noreferrer">RStudio Desktop</a>.</p>
+          <p>Después abre RStudio y ejecuta:</p>
+          <div class="codebox"><button class="copy" data-copy='print("SDM workshop")'>Copiar</button><pre>print("SDM workshop")</pre></div>
+          <p>Si el texto aparece en la consola, está todo correcto.</p>
+          <label class="check-row"><input type="checkbox"><span>R y RStudio están instalados y se abren correctamente.</span></label>
+        </div>
+      </article>
+
+      <article class="step" data-step="3">
+        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+          <span class="number">3</span><span class="step-title">Instalar Git y comprobar Bash</span><span class="step-status">Pendiente</span><span class="chevron">⌄</span>
+        </div>
+        <div class="step-content">
+          <p>Instala <a href="https://git-scm.com/downloads" target="_blank" rel="noreferrer">Git</a>.</p>
+          <div class="callout"><strong>Solo Windows:</strong> durante la instalación, selecciona la opción que permite usar Git desde la línea de comandos y desde programas de terceros. Esto instalará también <strong>Git Bash</strong>, necesario para el script de descarga automática.</div>
+          <p>Abre Git Bash (Windows) o Terminal (macOS/Linux) y comprueba:</p>
+          <div class="codebox"><button class="copy" data-copy="bash --version">Copiar</button><pre>bash --version</pre></div>
+          <label class="check-row"><input type="checkbox"><span>Git está instalado y el comando <code>bash --version</code> funciona.</span></label>
+        </div>
+      </article>
+
+      <article class="step" data-step="4">
+        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+          <span class="number">4</span><span class="step-title">Instalar Miniconda y Copernicus Marine Toolbox</span><span class="step-status">Pendiente</span><span class="chevron">⌄</span>
+        </div>
+        <div class="step-content">
+          <p>Descarga e instala <a href="https://www.anaconda.com/download/success" target="_blank" rel="noreferrer">Miniconda</a>.</p>
+          <div class="callout"><strong>Solo Windows — paso importante:</strong> durante la instalación, marca <code>Add Miniconda3 to my PATH environment variable</code>. Es necesario para que <code>copernicusmarine</code> pueda ejecutarse desde Git Bash y desde el script automático del taller. Después, cierra y vuelve a abrir todas las terminales.</div>
+          <p>Abre Miniconda Prompt (Windows) o Terminal (macOS/Linux) y ejecuta:</p>
+          <div class="codebox"><button class="copy" data-copy="conda install -c conda-forge copernicusmarine -y">Copiar</button><pre>conda install -c conda-forge copernicusmarine -y</pre></div>
+          <p>Cuando termine, inicia sesión:</p>
+          <div class="codebox"><button class="copy" data-copy="copernicusmarine login">Copiar</button><pre>copernicusmarine login</pre></div>
+          <p>Al escribir tu contraseña no aparecerán caracteres en pantalla: es normal.</p>
+          <label class="check-row"><input type="checkbox"><span>Miniconda y Copernicus Marine Toolbox están instalados y he iniciado sesión.</span></label>
+        </div>
+      </article>
+
+      <article class="step" data-step="5">
+        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+          <span class="number">5</span><span class="step-title">Comprobar Copernicus Marine</span><span class="step-status">Pendiente</span><span class="chevron">⌄</span>
+        </div>
+        <div class="step-content">
+          <p>En una terminal, ejecuta:</p>
+          <div class="codebox"><button class="copy" data-copy="copernicusmarine --help">Copiar</button><pre>copernicusmarine --help</pre></div>
+          <p>En Windows, repite exactamente el mismo comando desde <strong>Git Bash</strong>. Si aparece la ayuda de Copernicus Marine, la configuración está lista.</p>
+          <label class="check-row"><input type="checkbox"><span>El comando <code>copernicusmarine --help</code> funciona en mi terminal.</span></label>
+        </div>
+      </article>
+
+      <article class="step" data-step="6">
+        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+          <span class="number">6</span><span class="step-title">Descargar el repositorio del taller</span><span class="step-status">Pendiente</span><span class="chevron">⌄</span>
+        </div>
+        <div class="step-content">
+          <p>Abre una terminal, descarga el repositorio y entra en la carpeta:</p>
+          <div class="codebox"><button class="copy" data-copy="git clone https://github.com/jazelouled/ModelosDistribucionEspecies_CMEMS_Malaga2026.git">Copiar</button><pre>git clone https://github.com/jazelouled/ModelosDistribucionEspecies_CMEMS_Malaga2026.git</pre></div>
+          <div class="codebox"><button class="copy" data-copy="cd ModelosDistribucionEspecies_CMEMS_Malaga2026">Copiar</button><pre>cd ModelosDistribucionEspecies_CMEMS_Malaga2026</pre></div>
+          <label class="check-row"><input type="checkbox"><span>He descargado el repositorio en mi ordenador.</span></label>
+        </div>
+      </article>
+
+      <article class="step" data-step="7">
+        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+          <span class="number">7</span><span class="step-title">Instalar los paquetes de R</span><span class="step-status">Pendiente</span><span class="chevron">⌄</span>
+        </div>
+        <div class="step-content">
+          <p>Abre RStudio, copia el bloque completo en la consola y ejecútalo. La instalación puede tardar varios minutos, especialmente para <code>aniMotum</code>.</p>
+          <div class="codebox"><button class="copy" data-copy='cran_packages <- c(
+  "argosfilter", "caret", "corrplot", "data.table", "dplyr", "geosphere",
+  "ggplot2", "grid", "here", "lubridate", "patchwork", "pdp", "pROC",
+  "purrr", "randomForest", "ranger", "raster", "readr", "rnaturalearth",
+  "rnaturalearthdata", "sf", "stringr", "terra", "tidyr", "tidyverse", "viridis"
+)
+
+missing_cran <- setdiff(cran_packages, rownames(installed.packages()))
+
+if (length(missing_cran) > 0) {
+  install.packages(missing_cran, repos = "https://cloud.r-project.org/", dependencies = TRUE)
+}
+
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes", repos = "https://cloud.r-project.org/")
+}
+
+if (!requireNamespace("aniMotum", quietly = TRUE)) {
+  install.packages(
+    "aniMotum",
+    repos = c("https://cloud.r-project.org/", "https://ianjonsen.r-universe.dev/"),
+    dependencies = TRUE
+  )
+}
+
+if (!requireNamespace("availability", quietly = TRUE)) {
+  remotes::install_github("AustralianAntarcticDivision/availability")
+}'>Copiar</button><pre>cran_packages <- c(
+  "argosfilter", "caret", "corrplot", "data.table", "dplyr", "geosphere",
+  "ggplot2", "grid", "here", "lubridate", "patchwork", "pdp", "pROC",
+  "purrr", "randomForest", "ranger", "raster", "readr", "rnaturalearth",
+  "rnaturalearthdata", "sf", "stringr", "terra", "tidyr", "tidyverse", "viridis"
+)
+
+missing_cran <- setdiff(cran_packages, rownames(installed.packages()))
+
+if (length(missing_cran) > 0) {
+  install.packages(missing_cran, repos = "https://cloud.r-project.org/", dependencies = TRUE)
+}
+
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes", repos = "https://cloud.r-project.org/")
+}
+
+if (!requireNamespace("aniMotum", quietly = TRUE)) {
+  install.packages(
+    "aniMotum",
+    repos = c("https://cloud.r-project.org/", "https://ianjonsen.r-universe.dev/"),
+    dependencies = TRUE
+  )
+}
+
+if (!requireNamespace("availability", quietly = TRUE)) {
+  remotes::install_github("AustralianAntarcticDivision/availability")
+}</pre></div>
+          <label class="check-row"><input type="checkbox"><span>He instalado los paquetes de R sin errores importantes.</span></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="finish" id="finish">
+      <h2>¡Preparación completada!</h2>
+      <p>Cuando hayas completado los siete pasos, deja tu nombre y envía la confirmación.</p>
+      <div class="name-field">
+        <label for="participantName">Tu nombre y apellidos</label>
+        <input id="participantName" type="text" placeholder="Escribe tu nombre" autocomplete="name">
+      </div>
+      <button class="send" id="sendConfirmation" disabled>Enviar confirmación</button>
+      <p class="send-status" id="sendStatus" aria-live="polite"></p>
+      <p class="fineprint">Tu nombre se enviará directamente a la organización como confirmación de que has completado la preparación.</p>
+    </section>
+
+    <footer>Modelos de distribución de especies · Málaga 2026</footer>
+  </main>
+
+  <script>
+    const storageKey = "sdm-malaga-setup-progress-v1";
+    // Pega aquí la URL que termina en /exec al desplegar el archivo Code.gs.
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-1shURYT4qSlOr2Ixtaj8OpIbRrFNN3AjUxkRXXDa7oXXFkX3Wav8xX0djnXcA4x2Xw/exec";
+    const steps = [...document.querySelectorAll(".step")];
+    const checks = [...document.querySelectorAll(".step input[type=checkbox]")];
+    const nameInput = document.getElementById("participantName");
+    const progressBar = document.getElementById("progressBar");
+    const progressCount = document.getElementById("progressCount");
+    const sendButton = document.getElementById("sendConfirmation");
+    const sendStatus = document.getElementById("sendStatus");
+
+    function loadProgress() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey)) || {};
+        checks.forEach((check, index) => { check.checked = Boolean(saved.checks?.[index]); });
+        nameInput.value = saved.name || "";
+      } catch (_) {}
+    }
+
+    function saveProgress() {
+      localStorage.setItem(storageKey, JSON.stringify({
+        checks: checks.map(check => check.checked),
+        name: nameInput.value.trim()
+      }));
+    }
+
+    function updateProgress() {
+      const completed = checks.filter(check => check.checked).length;
+      const total = checks.length;
+      progressBar.style.width = `${(completed / total) * 100}%`;
+      progressCount.textContent = `${completed} de ${total} pasos`;
+      steps.forEach((step, index) => {
+        const done = checks[index].checked;
+        step.classList.toggle("is-complete", done);
+        step.querySelector(".step-status").textContent = done ? "Completado" : "Pendiente";
+      });
+      sendButton.disabled = completed !== total || !nameInput.value.trim();
+      saveProgress();
+    }
+
+    document.querySelectorAll(".step-header").forEach(header => {
+      function toggleStep() {
+        const step = header.closest(".step");
+        const open = step.classList.toggle("open");
+        header.setAttribute("aria-expanded", open);
+      }
+      header.addEventListener("click", toggleStep);
+      header.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleStep(); }
+      });
+    });
+
+    document.querySelectorAll(".copy").forEach(button => {
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(button.dataset.copy);
+          const original = button.textContent;
+          button.textContent = "¡Copiado!";
+          setTimeout(() => { button.textContent = original; }, 1400);
+        } catch (_) {
+          button.textContent = "Copia manual";
+        }
+      });
+    });
+
+    checks.forEach(check => check.addEventListener("change", updateProgress));
+    nameInput.addEventListener("input", updateProgress);
+
+    sendButton.addEventListener("click", async () => {
+      const participant = nameInput.value.trim();
+      if (APPS_SCRIPT_URL.includes("PEGA_AQUI")) {
+        sendStatus.className = "send-status error";
+        sendStatus.textContent = "La confirmación aún no está configurada. Falta añadir la URL de Google Apps Script.";
+        return;
+      }
+
+      sendButton.disabled = true;
+      sendButton.textContent = "Enviando…";
+      sendStatus.className = "send-status";
+      sendStatus.textContent = "Enviando tu confirmación…";
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            name: participant,
+            workshop: "Taller SDM Málaga 2026",
+            completedAt: new Date().toISOString()
+          })
+        });
+
+        sendButton.textContent = "✓ Confirmación enviada";
+        sendStatus.className = "send-status success";
+        sendStatus.textContent = "¡Listo! La organización ha recibido tu confirmación.";
+      } catch (_) {
+        sendButton.textContent = "Reintentar envío";
+        sendButton.disabled = false;
+        sendStatus.className = "send-status error";
+        sendStatus.textContent = "No se ha podido enviar la confirmación. Comprueba tu conexión e inténtalo de nuevo.";
+      }
+    });
+
+    loadProgress();
+    updateProgress();
+  </script>
+</body>
+</html>
